@@ -1,0 +1,462 @@
+<
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuego Wings & Pizza | Reynosa</title>
+    <style>
+        :root {
+            --primary: #ff5722;
+            --primary-dark: #e64a19;
+            --secondary: #ffc107;
+            --dark: #0a0a0a;
+            --gray: #1a1a1a;
+            --white: #ffffff;
+            --text-muted: #aaa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background: var(--dark);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* --- NAVEGACIÓN --- */
+        nav {
+            background: var(--primary);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+
+        nav a:hover { color: var(--secondary); }
+
+        /* --- SECCIONES --- */
+        .section { display: none; padding: 40px 20px; animation: fadeIn 0.4s ease; }
+        .active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- PÁGINA DE INICIO --- */
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('portada.png');
+            background-size: cover;
+            background-position: center;
+            border-radius: 0 0 50px 50px;
+            margin-bottom: 40px;
+        }
+
+        .btn-main {
+            background: var(--secondary);
+            color: black;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 20px;
+            text-transform: uppercase;
+        }
+
+        .btn-main:hover { transform: scale(1.05); background: #fbc02d; box-shadow: 0 0 15px rgba(255, 193, 7, 0.4); }
+
+        /* --- PROMOS ANIMADAS --- */
+        .promo-container {
+            margin: 40px 0;
+            overflow: hidden;
+            background: #000;
+            padding: 20px 0;
+            border-top: 2px solid var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .promo-track {
+            display: flex;
+            gap: 30px;
+            animation: scrollPromos 40s linear infinite;
+            width: max-content;
+        }
+
+        .promo-card {
+            background: var(--primary);
+            padding: 20px 40px;
+            border-radius: 15px;
+            min-width: 260px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        @keyframes scrollPromos { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* --- MENÚ GRID --- */
+        .menu-category-title {
+            color: var(--primary);
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+            margin: 50px 0 25px 0;
+            text-transform: uppercase;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: var(--gray);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: 0.3s;
+            border: 1px solid #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .product-img { width: 100%; height: 200px; object-fit: cover; background: #222; }
+        .product-info { padding: 20px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; }
+        .product-desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; line-height: 1.4; flex-grow: 1; }
+        .product-price { color: var(--secondary); font-weight: bold; font-size: 1.3rem; margin-bottom: 15px; }
+
+        /* --- SUCURSALES --- */
+        .sucursal-card {
+            background: var(--gray);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid var(--primary);
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 20px;
+        }
+        .sucursal-card:hover { background: #252525; }
+        .sucursal-info { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+        /* --- SECCIONES QR --- */
+        .qr-section {
+            background: var(--gray);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 400px;
+            margin: 60px auto;
+            text-align: center;
+            border: 1px solid #333;
+        }
+        .qr-section img { background: white; padding: 10px; border-radius: 10px; width: 180px; }
+
+        /* --- CARRITO PANEL --- */
+        #carritoPanel {
+            position: fixed; right: -400px; top: 0; width: 350px; height: 100%;
+            background: #111; z-index: 2000; padding: 25px;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column; box-sizing: border-box;
+            overflow-y: auto;
+        }
+        .cart-open { right: 0 !important; }
+        .cart-items { margin: 20px 0; }
+        .cart-item { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 0.9rem; border-bottom: 1px solid #222; padding-bottom: 10px; }
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px; }
+        input, select, textarea { width: 100%; padding: 10px; background: #222; border: 1px solid #444; color: white; border-radius: 8px; box-sizing: border-box; }
+        #direccion-area { display: none; }
+
+        /* --- BOTÓN FLOTANTE --- */
+        .float-cart {
+            position: fixed; bottom: 20px; right: 20px; background: var(--primary);
+            width: 65px; height: 65px; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; font-size: 24px;
+            cursor: pointer; z-index: 1500; box-shadow: 0 4px 15px rgba(255,87,34,0.4);
+        }
+        #cart-count { position: absolute; top: 0; right: 0; background: white; color: black; font-size: 12px; font-weight: bold; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a onclick="showSection('home')">Inicio</a>
+        <a onclick="showSection('menu-page')">Menú</a>
+        <a onclick="showSection('sucursales-page')">Sucursales</a>
+    </nav>
+
+    <section id="home" class="section active">
+        <div class="hero">
+            <h1 style="font-size: 3rem; margin: 0;">🔥 FUEGO WINGS</h1>
+            <p style="font-size: 1.2rem; color: var(--secondary);">Sabor que enciende tus sentidos</p>
+            <button class="btn-main" onclick="showSection('menu-page')">Ver Menú Completo</button>
+        </div>
+
+        <div class="promo-container">
+            <div class="promo-track">
+                <div class="promo-card">🍕 PIZZA JUEVES: Pepperoni Grande $149</div>
+                <div class="promo-card">🍗 LUNES: 2x1 en Alitas Clásicas</div>
+                <div class="promo-card">🔥 MARTES: Boneless $120</div>
+                <div class="promo-card">🍰 POSTRE GRATIS: En compras > $500</div>
+                <div class="promo-card">🍔 COMBO DOBLE: 2 Burgers x $250</div>
+                <div class="promo-card">🍕 PIZZA JUEVES: Pepperoni Grande $149</div>
+            </div>
+        </div>
+
+        <div class="qr-section">
+            <h3>📱 ¡Escanea el Menú!</h3>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://fuego-wings-reynosa.com" alt="QR Menú">
+            <p style="margin-top:10px; font-weight:bold; color:var(--secondary);">fuego-wings-reynosa.com</p>
+        </div>
+    </section>
+
+    <section id="menu-page" class="section">
+        <h2 style="text-align:center; font-size: 2.5rem;">Nuestro Menú</h2>
+
+        <h3 class="menu-category-title">🍕 Pizzas Artesanales</h3>
+        <div class="menu-grid" id="grid-pizza"></div>
+
+        <h3 class="menu-category-title">🍗 Alitas y Boneless</h3>
+        <div class="menu-grid" id="grid-wings"></div>
+
+        <h3 class="menu-category-title">🍔 Hamburguesas</h3>
+        <div class="menu-grid" id="grid-burgers"></div>
+
+        <h3 class="menu-category-title">🍰 Postres</h3>
+        <div class="menu-grid" id="grid-desserts"></div>
+
+        <h3 class="menu-category-title">🥤 Bebidas y Extras</h3>
+        <div class="menu-grid" id="grid-extras"></div>
+    </section>
+
+    <section id="sucursales-page" class="section">
+        <h2 style="text-align:center">Ubicaciones y Contacto</h2>
+        <div style="max-width:1000px; margin:auto;">
+            <div class="sucursal-card" onclick="updateMap('reynosa centro')">
+                <h3>📍 Sucursal Centro</h3>
+                <div class="sucursal-info">
+                    <p><b>Dirección:</b> Calle Hidalgo #456, Col. Centro, Reynosa.</p>
+                    <p><b>Teléfono:</b> 899-123-4567</p>
+                    <p><b>Horario:</b> Lun - Dom: 12:00 PM - 10:00 PM</p>
+                </div>
+            </div>
+            <div class="sucursal-card" onclick="updateMap('plaza real reynosa')">
+                <h3>📍 Sucursal Plaza Real</h3>
+                <div class="sucursal-info">
+                    <p><b>Dirección:</b> Blvd. Hidalgo, Local 12, Plaza Real, Reynosa.</p>
+                    <p><b>Teléfono:</b> 899-987-6543</p>
+                    <p><b>Horario:</b> Lun - Dom: 1:00 PM - 11:00 PM</p>
+                </div>
+            </div>
+        </div>
+        <iframe id="mapa" width="100%" height="400" style="border:0; border-radius:20px; margin-top:20px; background:#222;" src="https://maps.google.com/maps?q=reynosa%20centro&t=&z=15&ie=UTF8&iwloc=&output=embed"></iframe>
+    </section>
+
+    <div id="carritoPanel">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #333; padding-bottom:10px;">
+            <h3>Mi Pedido</h3>
+            <button onclick="toggleCart()" style="background:none; border:none; color:white; font-size:25px; cursor:pointer;">✕</button>
+        </div>
+
+        <div id="lista-carrito" class="cart-items"></div>
+
+        <div style="border-top: 1px solid #333; padding-top:15px;">
+            <p style="font-size:1.2rem;"><b>Total: $<span id="total-precio">0</span></b></p>
+
+            <div class="input-group">
+                <label>Sucursal para el pedido:</label>
+                <select id="sucursal-pedido">
+                    <option value="Centro">Sucursal Centro</option>
+                    <option value="Plaza Real">Sucursal Plaza Real</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Método de Entrega:</label>
+                <select id="tipo-entrega" onchange="handleDelivery(this.value)">
+                    <option value="Sucursal">Recoger en Sucursal</option>
+                    <option value="Domicilio">Envío a Domicilio (+$30)</option>
+                </select>
+            </div>
+
+            <div class="input-group" id="direccion-area">
+                <label>Dirección Completa:</label>
+                <textarea id="direccion" placeholder="Calle, número, colonia y referencias"></textarea>
+            </div>
+
+            <div class="input-group">
+                <label>Método de Pago:</label>
+                <select id="metodo-pago">
+                    <option value="Efectivo">Efectivo</option>
+                    <option value="Tarjeta">Tarjeta (Terminal al recibir)</option>
+                    <option value="Transferencia">Transferencia Bancaria</option>
+                </select>
+            </div>
+
+            <button class="btn-main" style="width:100%" onclick="enviarWhatsApp()">Finalizar Pedido por WhatsApp</button>
+        </div>
+    </div>
+
+    <div class="float-cart" onclick="toggleCart()">
+        🛒 <span id="cart-count">0</span>
+    </div>
+
+    <script>
+        const productos = [
+            // PIZZAS (10)
+            { name: "Pizza Pepperoni", price: 180, cat: "pizza", desc: "Clásica con extra queso y pepperoni crujiente.", img: "pizza peperoni.jpg" },
+            { name: "Pizza Mexicana", price: 210, cat: "pizza", desc: "Chorizo, jalapeño, cebolla y frijoles.", img: "pizza mex.jpg" },
+            { name: "Pizza Hawaiana", price: 190, cat: "pizza", desc: "Jamón seleccionado y piña dulce.", img: "pizza haw.jpg" },
+            { name: "Pizza BBQ Chicken", price: 220, cat: "pizza", desc: "Pollo asado, cebolla morada y salsa BBQ.", img: "pizza pollo.jpg" },
+            { name: "Pizza Carnes Frías", price: 230, cat: "pizza", desc: "Salami, jamón, salchicha y pepperoni.", img: "pizza carnes frias.png" },
+            { name: "Pizza Veggie", price: 185, cat: "pizza", desc: "Pimiento, champiñón, elote y aceituna.", img: "pizza veggi.jpg" },
+            { name: "Pizza 4 Quesos", price: 215, cat: "pizza", desc: "Mezcla de Mozzarella, Cheddar, Parmesano y Azul.", img: "pizza 4.jpg" },
+            { name: "Pizza Pastor", price: 220, cat: "pizza", desc: "Carne al pastor, piña, cilantro y cebolla.", img: "pizza pastor.jpg" },
+            { name: "Pizza Buffalo", price: 210, cat: "pizza", desc: "Pollo en salsa buffalo y aderezo ranch.", img: "pizza bufalo.jpg" },
+            { name: "Pizza Suprema", price: 240, cat: "pizza", desc: "Todos los ingredientes en una sola pizza.", img: "pizza suprema.jpg" },
+
+            // ALITAS & BONELESS (10)
+            { name: "Alitas Buffalo (10p)", price: 150, cat: "wings", desc: "Las clásicas con el picor perfecto.", img: "alitas bufalo.png" },
+            { name: "Boneless BBQ (10p)", price: 170, cat: "wings", desc: "Pechuga tierna con salsa BBQ dulce.", img: "boneless bbq.jpg" },
+            { name: "Alitas Mango Habanero", price: 160, cat: "wings", desc: "Explosión de sabor dulce y picante.", img: "alitas mango.jpg" },
+            { name: "Boneless Lemon Pepper", price: 170, cat: "wings", desc: "Cítricos y pimienta quebrada.", img: "bonel peper.jpg" },
+            { name: "Alitas Ajo Parmesano", price: 165, cat: "wings", desc: "Mantequilla de ajo y queso real.", img: "alitas ajo.jpg" },
+            { name: "Boneless Chipotle", price: 175, cat: "wings", desc: "Salsa cremosa de chipotle ahumado.", img: "bonel chip.jpg" },
+            { name: "Alitas Teriyaki", price: 155, cat: "wings", desc: "Estilo oriental con ajonjolí.", img: "alitas ter.jpg" },
+            { name: "Boneless Fuego Extremo", price: 180, cat: "wings", desc: "Solo para valientes. Chile fantasma.", img: "bonel fuego.jpg" },
+            { name: "Alitas Tamarindo", price: 160, cat: "wings", desc: "Agridulce con un toque de chile en polvo.", img: "alitas tam.jpg" },
+            { name: "Alitas Naturales", price: 140, cat: "wings", desc: "Súper crujientes sin salsa.", img: "alitas nat.jpg" },
+
+            // HAMBURGUESAS (10)
+            { name: "Burguer Clásica", price: 130, cat: "burgers", desc: "Res, queso, lechuga y tomate.", img: "hamburguesa clas.jpg" },
+            { name: "Burguer BBQ Bacon", price: 165, cat: "burgers", desc: "Tocino, aros de cebolla y BBQ.", img: "bbq.jpeg" },
+            { name: "Burguer Doble Fuego", price: 195, cat: "burgers", desc: "Doble carne y jalapeños asados.", img: "jalapeño.jpg" },
+            { name: "Burguer Hawaiana", price: 155, cat: "burgers", desc: "Jamón, piña y queso suizo.", img: "hawaiana.jpg" },
+            { name: "Burguer Crispy Chicken", price: 145, cat: "burgers", desc: "Pollo frito y aderezo chipotle.", img: "crispy.jpg" },
+            { name: "Burguer Mexicana", price: 160, cat: "burgers", desc: "Guacamole, chorizo y queso oaxaca.", img: "mexican.jpg" },
+            { name: "Burguer Portobello", price: 175, cat: "burgers", desc: "Champiñón portobello y queso provolone.", img: "porto.jpg" },
+            { name: "Burguer Monster", price: 230, cat: "burgers", desc: "Triple carne y huevo estrellado.", img: "huevo.jpg" },
+            { name: "Burguer Blue Cheese", price: 180, cat: "burgers", desc: "Queso azul y cebolla caramelizada.", img: "azul.jpg" },
+            { name: "Burguer Sliders (3p)", price: 170, cat: "burgers", desc: "Mini hamburguesas variadas.", img: "mini 3.jpg" },
+
+            // POSTRES (10)
+            { name: "Cheesecake Fresa", price: 85, cat: "desserts", desc: "Cremoso con jalea natural.", img: "chees.jpg" },
+            { name: "Volcán Chocolate", price: 95, cat: "desserts", desc: "Centro líquido y nieve.", img: "volcan.jpg" },
+            { name: "Churros Cajeta", price: 70, cat: "desserts", desc: "Doraditos con azúcar y canela.", img: "churros.jpg" },
+            { name: "Brownie Nuez", price: 65, cat: "desserts", desc: "Chocolate intenso con nuez.", img: "nuez.jpg" },
+            { name: "Pay de Limón", price: 60, cat: "desserts", desc: "Fresco y equilibrado.", img: "payd.jpg" },
+            { name: "Flan Napolitano", price: 55, cat: "desserts", desc: "Receta casera de la abuela.", img: "flan.jpg"},
+            { name: "Helado Vainilla", price: 45, cat: "desserts", desc: "Dos bolas con chocolate líquido.", img: "helado.jpg" },
+            { name: "Crepas Dulces", price: 90, cat: "desserts", desc: "Nutella y fresas frescas.", img: "crepas.jpg" },
+            { name: "Pastel Red Velvet", price: 85, cat: "desserts", desc: "Capa de queso crema suave.", img: "red.jpg" },
+            { name: "Malteada Oreo", price: 75, cat: "desserts", desc: "Espesa y con mucha galleta.", img: "malteada.jpg" },
+
+            // BEBIDAS & EXTRAS (10)
+            { name: "Papas Fuego", price: 75, cat: "extras", desc: "Sazonadas con chile y limón.", img: "papas fuego.jpg" },
+            { name: "Deditos Queso", price: 95, cat: "extras", desc: "5p con salsa marinara.", img: "dedos de queso.jpg" },
+            { name: "Aros Cebolla", price: 80, cat: "extras", desc: "Empanizados al momento.", img: "aros.jpg" },
+            { name: "Nachos Especiales", price: 120, cat: "extras", desc: "Carne asada, queso y jalapeño.", img: "nachos.jpg" },
+            { name: "Refresco 600ml", price: 35, cat: "extras", desc: "Coca-Cola, Sprite, Joya.", img: "sprite.jpg" },
+            { name: "Agua Natural", price: 25, cat: "extras", desc: "Botella 500ml.", img: "agua.jpg" },
+            { name: "Limonada Litro", price: 55, cat: "extras", desc: "Natural o Mineral.", img: "limonad.jpg" },
+            { name: "Té Helado", price: 40, cat: "extras", desc: "Hecho en casa, con limón.", img: "te helad.jpg" },
+            { name: "Cerveza Nacional", price: 50, cat: "extras", desc: "Solo consumo en sucursal.", img: "cervezas.png" },
+            { name: "Michelada", price: 85, cat: "extras", desc: "Preparada con clamato y especias.", img: "miche.jpg" }
+        ];
+
+        let cart = {};
+
+        function loadMenu() {
+            productos.forEach(p => {
+                const card = `
+                    <div class="product-card">
+                        <img src="${p.img}" class="product-img">
+                        <div class="product-info">
+                            <h4>${p.name}</h4>
+                            <p class="product-desc">${p.desc}</p>
+                            <p class="product-price">$${p.price}</p>
+                            <button class="btn-main" style="padding:10px; width:100%" onclick="addToCart('${p.name}', ${p.price})">Agregar</button>
+                        </div>
+                    </div>`;
+                const container = document.getElementById('grid-' + p.cat);
+                if(container) container.innerHTML += card;
+            });
+        }
+
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function toggleCart() { document.getElementById('carritoPanel').classList.toggle('cart-open'); }
+        function handleDelivery(v) { document.getElementById('direccion-area').style.display = (v === "Domicilio") ? "block" : "none"; }
+
+        function addToCart(name, price) {
+            if(!cart[name]) cart[name] = { price, qty: 0 };
+            cart[name].qty++;
+            updateUI();
+        }
+
+        function updateUI() {
+            const list = document.getElementById('lista-carrito');
+            let total = 0, count = 0;
+            list.innerHTML = "";
+            for(let key in cart) {
+                total += cart[key].price * cart[key].qty;
+                count += cart[key].qty;
+                list.innerHTML += `<div class="cart-item"><span>${cart[key].qty}x ${key}</span><span>$${cart[key].price * cart[key].qty} <button onclick="removeFromCart('${key}')" style="color:red; background:none; border:none; cursor:pointer">✕</button></span></div>`;
+            }
+            document.getElementById('total-precio').innerText = total;
+            document.getElementById('cart-count').innerText = count;
+        }
+
+        function removeFromCart(n) { delete cart[n]; updateUI(); }
+
+        function updateMap(loc) { document.getElementById('mapa').src = `https://maps.google.com/maps?q=${encodeURIComponent(loc)}&t=&z=15&ie=UTF8&iwloc=&output=embed`; }
+
+        function enviarWhatsApp() {
+            if(Object.keys(cart).length === 0) return alert("El carrito está vacío");
+
+            let msg = "*🔥 NUEVO PEDIDO FUEGO WINGS*%0A";
+            msg += "----------------------------%0A";
+            for(let key in cart) msg += `- ${cart[key].qty}x ${key}%0A`;
+
+            msg += `%0A*TOTAL:* $${document.getElementById('total-precio').innerText}`;
+            msg += `%0A*SUCURSAL:* ${document.getElementById('sucursal-pedido').value}`;
+            msg += `%0A*ENTREGA:* ${document.getElementById('tipo-entrega').value}`;
+
+            if(document.getElementById('tipo-entrega').value === "Domicilio") {
+                const dir = document.getElementById('direccion').value;
+                if(!dir) return alert("Ingresa tu dirección");
+                msg += `%0A*DIR:* ${dir}`;
+            }
+
+            msg += `%0A*PAGO:* ${document.getElementById('metodo-pago').value}`;
+            window.open(`https://wa.me/528991234567?text=${msg}`, '_blank');
+        }
+
+        window.onload = loadMenu;
+    </script>
+</body>
+</html>
+
+
